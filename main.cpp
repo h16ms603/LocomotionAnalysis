@@ -113,17 +113,17 @@ void iSaveData( string name ) {
 	ofstream file;
 	ifstream ifile;
 
-	fname.str("");
-	fname << name << k << ".txt";
-	ifile.open( fname.str(), ios::in );
-	while ( ifile.is_open() ) {
-		ifile.close();
+	while (true) {
+		std::ifstream ifile;
 		fname.str("");
 		fname << name << k << ".txt";
-		ifile.open( fname.str(), ios::in );
-		k++;
+		ifile.open(fname.str(), std::ios::in);
+		if (!ifile.is_open()) {
+			ifile.close();
+			break;
+		}
+		k += 1;
 	}
-	ifile.close();
 
 	file.open( fname.str(), ios::out );
 
@@ -157,9 +157,10 @@ int main(void) {
 	Mat leftImage;
 	Mat rightImage;
 
-	SetConsoleTitleA( "Behavior Measurement" );
+	char consoleName[] = "Behavior Measurement";
+	SetConsoleTitleA( consoleName );
 	Sleep(20);
-	MoveWindow( FindWindowA(NULL, "Behavior Measurement"), 0, 0, 640, 480, true );
+	MoveWindow( FindWindowA(NULL, consoleName), 0, 0, 640, 480, true );
 	cout << endl;
 
 	string windowName = "Left:Result Image, Right:Extracted Image";
@@ -177,11 +178,10 @@ int main(void) {
 		cerr << " Error : Do not have the input video." << endl;
 		cout << endl;
 	}
-	
 #ifdef VIDEO
-	VideoWriter writerResult(   "Result.avi", CV_FOURCC('X', 'V', 'I', 'D'), FPS, cv::Size(WIDTH, HEIGHT) );
+	VideoWriter writerCurrent( "Current.avi", CV_FOURCC('X', 'V', 'I', 'D'), FPS, cv::Size(WIDTH, HEIGHT) );
 	VideoWriter writerExtract( "Extract.avi", CV_FOURCC('X', 'V', 'I', 'D'), FPS, cv::Size(WIDTH, HEIGHT) );
-	if ( !writerResult.isOpened() || !writerExtract.isOpened() ) {
+	if ( !writerCurrent.isOpened() || !writerExtract.isOpened() ) {
 		cerr << " Error : Can not save the video." << endl;
 		cout << endl;
 	}
@@ -202,32 +202,11 @@ int main(void) {
 	
 	while ( true ) {
 
-		int key = cv::waitKey(1);
-		switch ( key ) {
-		case 'n':
-			playFlag = true;
-			break;
-		case 'b':
-			playFlag = false;
-			break;
-		case 'r':
-			playFlag = true;
-			loopCount = 0;
-			capture.set( CV_CAP_PROP_POS_AVI_RATIO, 0 );
-			break;
-		case 'q':
-			return 0;
-			break;
-		default:
-			break;
-		}
-
 		if ( playFlag == true ) {
 			capture >> sourceImage;
 			if ( sourceImage.empty() ) {
 				break;
 			}
-			time = capture.get( CV_CAP_PROP_POS_MSEC ) * 0.001;
 		}
 		sourceImage.copyTo( currentImage );
 
@@ -235,6 +214,7 @@ int main(void) {
 
 		iEstimate( extractImage );
 
+		double time = capture.get(CV_CAP_PROP_POS_MSEC) * 0.001;
 		data[loopCount][0] = time;
 		data[loopCount][1] = xg;
 		data[loopCount][2] = yg;
@@ -266,7 +246,7 @@ int main(void) {
 			circle( rightImage, Point(xg, yg), 4, CV_RGB(255, 0, 0), -1, 8, 0 );
 		}
 #ifdef VIDEO
-		writerResult << leftImage;
+		writerCurrent << leftImage;
 		writerExtract << rightImage;
 #endif
 		hconcat( leftImage, rightImage, destinationImage );
@@ -276,6 +256,26 @@ int main(void) {
 		cout << " > Play time : " << fixed << setprecision(2) << time << "\r" << flush;
 		
 		imshow( windowName, destinationImage );
+
+		int key = cv::waitKey(1);
+		switch (key) {
+		case 'n':
+			playFlag = true;
+			break;
+		case 'b':
+			playFlag = false;
+			break;
+		case 'r':
+			playFlag = true;
+			loopCount = 0;
+			capture.set( CV_CAP_PROP_POS_AVI_RATIO, 0 );
+			break;
+		case 'q':
+			return 0;
+			break;
+		default:
+			break;
+		}
 	}
 
 	cout << " > Do you save the get data?" << endl;
