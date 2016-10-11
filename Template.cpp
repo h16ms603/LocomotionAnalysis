@@ -1,4 +1,4 @@
-
+п»ї
 #include <Windows.h>
 #include <iostream>
 #include <iomanip>
@@ -11,61 +11,61 @@
 #include <opencv2/highgui/highgui.hpp>
 #include "Labeling.h"
 
-// “®‰ж•Ы‘¶ѓ‚Ѓ[ѓh
+// е‹•з”»дїќе­гѓўгѓјгѓ‰
 //#define VIDEO
 
-// “®‰жѓfЃ[ѓ^
-#define   WIDTH     1280     // ѓtѓЊЃ[ѓЂ‚М‰Ў•ќ
-#define   HEIGHT     720     // ѓtѓЊЃ[ѓЂ‚МЏc•ќ
-#define   FPS         30     // ѓtѓЊЃ[ѓЂѓЊЃ[ѓg
+// е‹•з”»гѓ‡гѓјг‚ї
+#define   WIDTH     1280     // гѓ•гѓ¬гѓјгѓ гЃ®жЁЄе№…
+#define   HEIGHT     720     // гѓ•гѓ¬гѓјгѓ гЃ®зё¦е№…
+#define   FPS         30     // гѓ•гѓ¬гѓјгѓ гѓ¬гѓјгѓ€
 
-// ‰ж‘њЏ€—ќѓpѓ‰ѓЃЃ[ѓ^
-#define   THRESHOLD_BINARY    80     // “с’l‰»‚Ми‡’l
-#define   THRESHOLD_MAX      255     // “с’l‰»‚МЌЕ‘е’l
-#define   ITERATION_DILATE     1     // –c’ЈЏ€—ќ‚М‰сђ”
-#define   ITERATION_ERODE      1     // ЋыЏkЏ€—ќ‚М‰сђ”
+// з”»еѓЏе‡¦зђ†гѓ‘гѓ©гѓЎгѓјг‚ї
+#define   THRESHOLD_BINARY    80     // дєЊеЂ¤еЊ–гЃ®й–ѕеЂ¤
+#define   THRESHOLD_MAX      255     // дєЊеЂ¤еЊ–гЃ®жњЂе¤§еЂ¤
+#define   ITERATION_DILATE     1     // и†Ёејµе‡¦зђ†гЃ®е›ћж•°
+#define   ITERATION_ERODE      1     // еЏЋзё®е‡¦зђ†гЃ®е›ћж•°
 
-// •Ы‘¶ѓfЃ[ѓ^
-#define   NUMBER_DATA   2000    // ѓfЃ[ѓ^‚Мђ”
-#define   NUMBER_ITEM      4    // ЌЂ–Ъ‚Мђ”
+// дїќе­гѓ‡гѓјг‚ї
+#define   NUMBER_DATA   2000    // гѓ‡гѓјг‚їгЃ®ж•°
+#define   NUMBER_ITEM      4    // й …з›®гЃ®ж•°
 
 using namespace cv;
 using namespace std;
 
-int loopCount;          // ѓJѓEѓ“ѓ^
+int loopCount;          // г‚«г‚¦гѓіг‚ї
 
-cv::Mat    currentImage;     // Њ»ЌЭ‰ж‘њ
-cv::Mat backgroundImage;     // ”wЊi‰ж‘њ
-cv::Mat differenceImage;     // Ќ·•Є‰ж‘њ
-cv::Mat    extractImage;     // ’ЉЏo‰ж‘њ
+cv::Mat    currentImage;     // зЏѕењЁз”»еѓЏ
+cv::Mat backgroundImage;     // иѓЊж™Їз”»еѓЏ
+cv::Mat differenceImage;     // е·®е€†з”»еѓЏ
+cv::Mat    extractImage;     // жЉЅе‡єз”»еѓЏ
 
-int xg, yg;           // ЉПЋ@‘ОЏЫ‚М€К’u
-double direction;     // ЉПЋ@‘ОЏЫ‚МЋpђЁ
+int xg, yg;           // и¦іеЇџеЇѕи±ЎгЃ®дЅЌзЅ®
+double direction;     // и¦іеЇџеЇѕи±ЎгЃ®е§їе‹ў
 
-double data[NUMBER_DATA][NUMBER_ITEM];     // •Ы‘¶ѓfЃ[ѓ^
+double data[NUMBER_DATA][NUMBER_ITEM];     // дїќе­гѓ‡гѓјг‚ї
 
-// —М€ж’ЉЏo
+// й еџџжЉЅе‡є
 cv::Mat iExtract( Mat source, Mat background ) {
 
 	Mat extract( source.size(), CV_8UC1 );
 	Mat labelArray( source.size(), CV_16SC1 );
 	LabelingBS imageLabel;
 
-	// ѓOѓЊЃ[ѓXѓPЃ[ѓ‹‰»
+	// г‚°гѓ¬гѓјг‚№г‚±гѓјгѓ«еЊ–
 	cvtColor( source, source, CV_RGB2GRAY );
 	cvtColor( background, background, CV_RGB2GRAY );
 
-	// ”wЊiЌ·•Є
+	// иѓЊж™Їе·®е€†
 	cv::absdiff( source, background, differenceImage );
 
-	// “с’l‰»
+	// дєЊеЂ¤еЊ–
 	cv::threshold( differenceImage, extract, THRESHOLD_BINARY, THRESHOLD_MAX, CV_THRESH_BINARY );
 
-	// –c’ЈЋыЏkЏ€—ќ
+	// и†ЁејµеЏЋзё®е‡¦зђ†
 	dilate( extract, extract, cv::Mat(), cv::Point(-1, -1), ITERATION_DILATE );
 	erode( extract, extract, cv::Mat(), cv::Point(-1, -1), ITERATION_ERODE );
 
-	// ЌЕ‘еAЊ‹—v‘fЋж“ѕ
+	// жњЂе¤§йЂЈзµђи¦Ѓзґ еЏ–еѕ—
 	imageLabel.Exec( extract.data, (short *)labelArray.data, source.rows, source.cols, true, 0 );
 	for ( int y = 0; y < labelArray.rows; y++ ) {
 		for ( int x = 0; x < labelArray.cols; x++ ) {
@@ -81,14 +81,14 @@ cv::Mat iExtract( Mat source, Mat background ) {
 	return extract;
 }
 
-// €К’uЃEЋpђЁђ„’и
+// дЅЌзЅ®гѓ»е§їе‹ўжЋЁе®љ
 void iEstimate( Mat source ) {
 
 	double m00, m01, m10;
 	double mu02, mu11, mu20;
 	Moments imageMoment;
 
-	// ѓ‚Ѓ[ѓЃѓ“ѓgЋж“ѕ
+	// гѓўгѓјгѓЎгѓігѓ€еЏ–еѕ—
 	imageMoment = moments( source );
 	m00 = imageMoment.m00;
 	m01 = imageMoment.m01;
@@ -97,7 +97,7 @@ void iEstimate( Mat source ) {
 	mu11 = imageMoment.mu11;
 	mu20 = imageMoment.mu20;
 
-	// ЏdђS‚М€К’u
+	// й‡ЌеїѓгЃ®дЅЌзЅ®
 	xg = (int)(m10 / m00);
 	yg = (int)(m01 / m00);
 	if ( xg < 0 && yg < 0 ) {
@@ -105,7 +105,7 @@ void iEstimate( Mat source ) {
 		yg = -1;
 	}
 
-	// Љµђ«ЋеЋІ‚МЊX‚«
+	// ж…ЈжЂ§дё»и»ёгЃ®е‚ѕгЃЌ
 	direction = 0.5 * atan2(2 * mu11, (mu20 - mu02));
 	if ( direction > 0 ) {
 		direction = (CV_PI / 2) - direction;
@@ -119,7 +119,7 @@ void iEstimate( Mat source ) {
 	}
 }
 
-// ѓfЃ[ѓ^•Ы‘¶
+// гѓ‡гѓјг‚їдїќе­
 void iSaveData( string name ) {
 
 	int k = 0;
@@ -127,7 +127,7 @@ void iSaveData( string name ) {
 	ofstream file;
 	ifstream ifile;
 
-	// ѓtѓ@ѓCѓ‹‚М’TЌх
+	// гѓ•г‚Ўг‚¤гѓ«гЃ®жЋўзґў
 	while ( true ) {
 		std::ifstream ifile;
 		fname.str("");
@@ -140,10 +140,10 @@ void iSaveData( string name ) {
 		k += 1;
 	}
 
-	// ѓtѓ@ѓCѓ‹‚МѓIЃ[ѓvѓ“
+	// гѓ•г‚Ўг‚¤гѓ«гЃ®г‚Єгѓјгѓ—гѓі
 	file.open( fname.str(), ios::out );
 
-	// ѓfЃ[ѓ^‚М•Ы‘¶
+	// гѓ‡гѓјг‚їгЃ®дїќе­
 	if ( file.is_open() ) {
 		for ( int count = 0; count < loopCount; count++ ) {
 			file << count << "\t";
@@ -154,11 +154,11 @@ void iSaveData( string name ) {
 		}
 	}
 	else {
-		cerr << " Error : Џo—Нѓtѓ@ѓCѓ‹‚ЄЉJ‚Ї‚Ь‚№‚сЃD" << endl;
+		cerr << " Error : е‡єеЉ›гѓ•г‚Ўг‚¤гѓ«гЃЊй–‹гЃ‘гЃѕгЃ›г‚“пјЋ" << endl;
 		cerr << " Output file : " << fname.str() << endl;
 	}
 
-	// ѓtѓ@ѓCѓ‹‚МѓNѓЌЃ[ѓY
+	// гѓ•г‚Ўг‚¤гѓ«гЃ®г‚Їгѓ­гѓјг‚є
 	file.close();
 }
 
@@ -172,19 +172,19 @@ int main(void) {
 	Mat leftShowImage;
 	Mat rightShowImage;
 
-	// ѓRѓ“ѓ\Ѓ[ѓ‹‚МђЭ’и
+	// г‚ігѓіг‚Ѕгѓјгѓ«гЃ®иЁ­е®љ
 	char consoleName[] = "Behavior Measurement";
 	SetConsoleTitleA( consoleName );
 	Sleep(20);
 	MoveWindow( FindWindowA(NULL, consoleName), 0, 0, 640, 480, true );
 	cout << endl;
 
-	// ѓEѓBѓ“ѓhѓE‚МђЭ’и
+	// г‚¦г‚Јгѓігѓ‰г‚¦гЃ®иЁ­е®љ
 	string windowName = "Left:Result Image, Right:Extracted Image";
 	namedWindow( windowName, CV_WINDOW_AUTOSIZE );
 	moveWindow( windowName, 0, 320 );
 
-	// “ь—Н“®‰ж‚М—p€У
+	// е…ҐеЉ›е‹•з”»гЃ®з”Ёж„Џ
 	VideoCapture capture( "Ant.mp4" );
 	if ( capture.isOpened() ) {
 		playFlag = true;
@@ -194,36 +194,36 @@ int main(void) {
 	}
 	else {
 		playFlag = false;
-		cerr << " Error : “ь—Н“®‰ж‚Є—p€У‚і‚к‚Д‚ў‚Ь‚№‚сЃD" << endl;
+		cerr << " Error : е…ҐеЉ›е‹•з”»гЃЊз”Ёж„ЏгЃ•г‚ЊгЃ¦гЃ„гЃѕгЃ›г‚“пјЋ" << endl;
 	}
 #ifdef VIDEO
-	// •Ы‘¶“®‰ж‚М—p€У
+	// дїќе­е‹•з”»гЃ®з”Ёж„Џ
 	VideoWriter writerCurrent( "Current.avi", CV_FOURCC('X', 'V', 'I', 'D'), FPS, cv::Size(WIDTH, HEIGHT) );
 	VideoWriter writerExtract( "Extract.avi", CV_FOURCC('X', 'V', 'I', 'D'), FPS, cv::Size(WIDTH, HEIGHT) );
 	if ( !writerResult.isOpened() || !writerExtract.isOpened() ) {
-		cerr << " Error : “®‰ж‚М•Ы‘¶‚Є‚Е‚«‚Ь‚№‚сЃD" << endl;
+		cerr << " Error : е‹•з”»гЃ®дїќе­гЃЊгЃ§гЃЌгЃѕгЃ›г‚“пјЋ" << endl;
 	}
 #endif
-	// ѓRѓ“ѓ\Ѓ[ѓ‹‚М•\Ћ¦
-	cout << " > “ь—Н“®‰ж‚Й‘О‚µ‚ДЉПЋ@‘ОЏЫ‚М€К’uЃEЋpђЁђ„’и‚рЋАЌs’†..." << "\n";
+	// г‚ігѓіг‚Ѕгѓјгѓ«гЃ®иЎЁз¤є
+	cout << " > е…ҐеЉ›е‹•з”»гЃ«еЇѕгЃ—гЃ¦и¦іеЇџеЇѕи±ЎгЃ®дЅЌзЅ®гѓ»е§їе‹ўжЋЁе®љг‚’е®џиЎЊдё­..." << "\n";
 	cout << endl;
-	cout << " [n] ЌДђ¶" << "\n";
-	cout << " [b] ’вЋ~" << "\n";
-	cout << " [r] ‚Н‚¶‚Я‚©‚зЌДђ¶" << "\n";
-	cout << " [q] ЏI—№" << "\n";
+	cout << " [n] е†Ќз”џ" << "\n";
+	cout << " [b] еЃњж­ў" << "\n";
+	cout << " [r] гЃЇгЃг‚ЃгЃ‹г‚‰е†Ќз”џ" << "\n";
+	cout << " [q] зµ‚дє†" << "\n";
 	cout << endl;
 
-	// ”wЊi‰ж‘њ‚МЋж“ѕ
+	// иѓЊж™Їз”»еѓЏгЃ®еЏ–еѕ—
 	capture >> sourceImage;
 	sourceImage.copyTo( backgroundImage );
 
-	// ѓJѓEѓ“ѓ^‚МѓЉѓZѓbѓg
+	// г‚«г‚¦гѓіг‚їгЃ®гѓЄг‚»гѓѓгѓ€
 	loopCount = 0;
 	
-	/* ѓЃѓCѓ“ѓ‹Ѓ[ѓv */
+	/* гѓЎг‚¤гѓігѓ«гѓјгѓ— */
 	while ( true ) {
 
-		// “ь—Н‰ж‘њ‚МЋж“ѕ
+		// е…ҐеЉ›з”»еѓЏгЃ®еЏ–еѕ—
 		if ( playFlag == true ) {
 			capture >> sourceImage;
 			if ( sourceImage.empty() ) {
@@ -232,13 +232,13 @@ int main(void) {
 		}
 		sourceImage.copyTo( currentImage );
 
-		// —М€ж‚М’ЉЏo
+		// й еџџгЃ®жЉЅе‡є
 		extractImage = iExtract( currentImage, backgroundImage );
 
-		// €К’uЃEЋpђЁ‚Мђ„’и
+		// дЅЌзЅ®гѓ»е§їе‹ўгЃ®жЋЁе®љ
 		iEstimate( extractImage );
 
-		// ѓfЃ[ѓ^‚МЋж“ѕ
+		// гѓ‡гѓјг‚їгЃ®еЏ–еѕ—
 		double time = capture.get(CV_CAP_PROP_POS_MSEC) * 0.001;
 		data[loopCount][0] = time;
 		data[loopCount][1] = xg;
@@ -246,7 +246,7 @@ int main(void) {
 		data[loopCount][3] = direction;
 		loopCount += 1;
 
-		// •\Ћ¦‰ж‘њ‚Мђ¶ђ¬
+		// иЎЁз¤єз”»еѓЏгЃ®з”џж€ђ
 		currentImage.copyTo( leftShowImage );
 		currentImage.copyTo( rightShowImage );
 		for ( int y = 0; y < rightShowImage.rows; y++ ) {
@@ -264,7 +264,7 @@ int main(void) {
 			}
 		}
 		
-		// ђь‚М•`‰жЃE“_‚М•`‰ж
+		// з·љгЃ®жЏЏз”»гѓ»з‚№гЃ®жЏЏз”»
 		if ( xg != -1 && yg != -1 ) {
 			int  x1, x2;
 			x1 = (int)(xg - yg * tan(direction));
@@ -273,37 +273,37 @@ int main(void) {
 			circle( rightShowImage, Point(xg, yg), 4, CV_RGB(255, 0, 0), -1, 8, 0 );
 		}
 
-		// •\Ћ¦‰ж‘њ‚МЊ‹Ќ‡
+		// иЎЁз¤єз”»еѓЏгЃ®зµђеђ€
 		hconcat( leftShowImage, rightShowImage, destinationImage );
 
-		// Џo—Н‰ж‘њ‚МЏkЏ¬
+		// е‡єеЉ›з”»еѓЏгЃ®зё®е°Џ
 		resize( destinationImage, destinationImage, Size(0, 0), 0.5, 0.5 );
 #ifdef VIDEO
-		// •Ы‘¶“®‰ж‚МЋж“ѕ
+		// дїќе­е‹•з”»гЃ®еЏ–еѕ—
 		writerCurrent << leftShowImage;
 		writerExtract << rightShowImage;
 #endif
-		// ѓRѓ“ѓ\Ѓ[ѓ‹‚М•\Ћ¦
-		cout << " > ЌДђ¶ЋћЉФЃF" << fixed << setprecision(2) << time << "\r" << flush;
+		// г‚ігѓіг‚Ѕгѓјгѓ«гЃ®иЎЁз¤є
+		cout << " > е†Ќз”џж™‚й–“пјљ" << fixed << setprecision(2) << time << "\r" << flush;
 		
-		// Џo—Н‰ж‘њ‚М•\Ћ¦
+		// е‡єеЉ›з”»еѓЏгЃ®иЎЁз¤є
 		imshow( windowName, destinationImage );
 
-		// ѓLЃ[‚М“ь—Н
+		// г‚­гѓјгЃ®е…ҐеЉ›
 		int key = cv::waitKey( 1 );
 		switch ( key ) {
-		case 'n':     // “®‰ж‚МЌДђ¶
+		case 'n':     // е‹•з”»гЃ®е†Ќз”џ
 			playFlag = true;
 			break;
-		case 'b':     // “®‰ж‚М’вЋ~
+		case 'b':     // е‹•з”»гЃ®еЃњж­ў
 			playFlag = false;
 			break;
-		case 'r':     // “®‰ж‚М‚Н‚¶‚Я‚©‚зЌДђ¶
+		case 'r':     // е‹•з”»гЃ®гЃЇгЃг‚ЃгЃ‹г‚‰е†Ќз”џ
 			playFlag = true;
 			loopCount = 0;
 			capture.set( CV_CAP_PROP_POS_AVI_RATIO, 0 );
 			break;
-		case 'q':     // ЏI—№
+		case 'q':     // зµ‚дє†
 			return 0;
 			break;
 		default:
@@ -311,14 +311,14 @@ int main(void) {
 		}
 	}
 
-	// ѓRѓ“ѓ\Ѓ[ѓ‹‚М•\Ћ¦
-	cout << " > Ћж“ѕ‚µ‚ЅѓfЃ[ѓ^‚р•Ы‘¶‚µ‚Ь‚·‚©ЃD" << "\n";
+	// г‚ігѓіг‚Ѕгѓјгѓ«гЃ®иЎЁз¤є
+	cout << " > еЏ–еѕ—гЃ—гЃџгѓ‡гѓјг‚їг‚’дїќе­гЃ—гЃѕгЃ™гЃ‹пјЋ" << "\n";
 	cout << endl;
-	cout << " [y] ‚Н‚ў" << "\n";
-	cout << " [n] ‚ў‚ў‚¦" << "\n";
+	cout << " [y] гЃЇгЃ„" << "\n";
+	cout << " [n] гЃ„гЃ„гЃ€" << "\n";
 	cout << endl;
 	
-	/* ѓfЃ[ѓ^•Ы‘¶‚М‘I‘р */
+	/* гѓ‡гѓјг‚їдїќе­гЃ®йЃёжЉћ */
 	while ( true ) {
 		int key = cv::waitKey(1);
 		if ( key == 'y' || key == 'n' ) {
