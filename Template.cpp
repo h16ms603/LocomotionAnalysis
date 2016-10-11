@@ -9,7 +9,6 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/calib3d/calib3d.hpp>
 #include "Labeling.h"
 
 // 動画保存モード
@@ -157,14 +156,13 @@ void iSaveData( string name ) {
 	else {
 		cerr << " Error : 出力ファイルが開けません．" << endl;
 		cerr << " Output file : " << fname.str() << endl;
-		cout << endl;
 	}
 
 	// ファイルのクローズ
 	file.close();
 }
 
-/***************************************************************************************************/
+/******************************************************************************/
 int main(void) {
 
 	bool playFlag;
@@ -197,7 +195,6 @@ int main(void) {
 	else {
 		playFlag = false;
 		cerr << " Error : 入力動画が用意されていません．" << endl;
-		cout << endl;
 	}
 #ifdef VIDEO
 	// 保存動画の用意
@@ -205,16 +202,15 @@ int main(void) {
 	VideoWriter writerExtract( "Extract.avi", CV_FOURCC('X', 'V', 'I', 'D'), FPS, cv::Size(WIDTH, HEIGHT) );
 	if ( !writerResult.isOpened() || !writerExtract.isOpened() ) {
 		cerr << " Error : 動画の保存ができません．" << endl;
-		cout << endl;
 	}
 #endif
 	// コンソールの表示
-	cout << " > 入力動画に対して観察対象の位置・姿勢推定を実行中..." << endl;
+	cout << " > 入力動画に対して観察対象の位置・姿勢推定を実行中..." << "\n";
 	cout << endl;
-	cout << " [n] 再生" << endl;
-	cout << " [b] 停止" << endl;
-	cout << " [r] はじめから再生" << endl;
-	cout << " [q] 終了" << endl;
+	cout << " [n] 再生" << "\n";
+	cout << " [b] 停止" << "\n";
+	cout << " [r] はじめから再生" << "\n";
+	cout << " [q] 終了" << "\n";
 	cout << endl;
 
 	// 背景画像の取得
@@ -316,10 +312,10 @@ int main(void) {
 	}
 
 	// コンソールの表示
-	cout << " > 取得したデータを保存しますか．" << endl;
+	cout << " > 取得したデータを保存しますか．" << "\n";
 	cout << endl;
-	cout << " [y] はい" << endl;
-	cout << " [n] いいえ" << endl;
+	cout << " [y] はい" << "\n";
+	cout << " [n] いいえ" << "\n";
 	cout << endl;
 	
 	/* データ保存の選択 */
@@ -333,4 +329,4 @@ int main(void) {
 		}
 	}
 }
-/***************************************************************************************************/
+/******************************************************************************/
