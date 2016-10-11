@@ -1,4 +1,4 @@
-
+ï»¿
 #include <windows.h>
 #include <iostream>
 #include <opencv2/core/core.hpp>
@@ -6,13 +6,13 @@
 #include "file.h"
 #include "calculate.h"
 
-// ©“®•\¦ƒ‚[ƒh
+// è‡ªå‹•è¡¨ç¤ºãƒ¢ãƒ¼ãƒ‰
 #define AUTO
 
-// “®‰æ•Û‘¶ƒ‚[ƒh
+// å‹•ç”»ä¿å­˜ãƒ¢ãƒ¼ãƒ‰
 //#define VIDEO
 
-/***************************************************************************************************/
+/******************************************************************************/
 int main( void ) {
 	
 	bool showFlag;
@@ -23,34 +23,34 @@ int main( void ) {
 	cv::Mat destinationImage;
 	cv::Mat stickImage;
 	
-	// ƒRƒ“ƒ\[ƒ‹‚Ìİ’è
+	// ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®è¨­å®š
 	char consoleName[] = "Stick Diagram";
 	SetConsoleTitleA( consoleName );
 	Sleep( 20 );
 	MoveWindow( FindWindowA(NULL, consoleName), 0, 0, 640, 480, true );
 	std::cout << std::endl;
 
-	// ƒEƒBƒ“ƒhƒE‚Ìİ’è
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®è¨­å®š
 	std::string windowName = "Source Image";
 	cv::namedWindow( windowName, CV_WINDOW_AUTOSIZE );
 	cv::moveWindow( windowName, 650, 0 );
 #ifdef VIDEO
-	// o—Í“®‰æ‚ÌƒI[ƒvƒ“
+	// å‡ºåŠ›å‹•ç”»ã®ã‚ªãƒ¼ãƒ—ãƒ³
 	cv::VideoWriter writer.open("StickDiagram.avi", CV_FOURCC('X', 'V', 'I', 'D'), RATE_FRAME, cv::Size(2 * WIDTH, HEIGHT));
 	if ( !writer.isOpened() ) {
-		std::cerr << " Error : “®‰æ‚Ì•Û‘¶‚ª‚Å‚«‚Ü‚¹‚ñD" << std::endl;
+		std::cerr << " Error : å‹•ç”»ã®ä¿å­˜ãŒã§ãã¾ã›ã‚“ï¼" << std::endl;
 	}
 #endif
-	// ƒf[ƒ^‚Ì“Ç‚İ‚İ
+	// ãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿
 	iReadCoordinate();
 	iReadBody();
 
-	// ƒRƒ“ƒ\[ƒ‹‚Ì•\¦
-	std::cout << " > " << "ƒtƒ@ƒCƒ‹F" << " data" << fileNumber << ".txt" << " ‚©‚çÀ•Wƒf[ƒ^‚ğæ“¾D" << "\n";
-	std::cout << " > " << "ƒtƒHƒ‹ƒ_F" << NAME_FOLDER << " ‚©‚çg‘Ìƒf[ƒ^‚ğæ“¾D" << "\n";
+	// ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®è¡¨ç¤º
+	std::cout << " > " << "ãƒ•ã‚¡ã‚¤ãƒ«ï¼š" << " data" << fileNumber << ".txt" << " ã‹ã‚‰åº§æ¨™ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ï¼" << "\n";
+	std::cout << " > " << "ãƒ•ã‚©ãƒ«ãƒ€ï¼š" << NAME_FOLDER << " ã‹ã‚‰èº«ä½“ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ï¼" << "\n";
 	std::cout << std::endl;
 
-	// ƒf[ƒ^‚Ì’Tõ
+	// ãƒ‡ãƒ¼ã‚¿ã®æ¢ç´¢
 	imageCount = 0;
 	fileName.str("");
 	fileName << std::setw(3) << std::setfill('0') << imageCount << ".bmp";
@@ -71,35 +71,35 @@ int main( void ) {
 	}
 	endCount = imageCount - 1;
 
-	// ƒRƒ“ƒ\[ƒ‹‚Ì•\¦
-	std::cout << " > ƒoƒbƒ^‚Ìæù‚ª’n–Ê‚©‚ç—£‚ê‚½‚Æ‚«‚Ì‰æ‘œ‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢D" << "\n";
+	// ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®è¡¨ç¤º
+	std::cout << " > ãƒãƒƒã‚¿ã®è¸µãŒåœ°é¢ã‹ã‚‰é›¢ã‚ŒãŸã¨ãã®ç”»åƒã‚’é¸æŠã—ã¦ãã ã•ã„ï¼" << "\n";
 	std::cout << std::endl;
-	std::cout << " [©] ‘O‰æ‘œ‚Ì•\¦" << "\t" << " [¨] Ÿ‰æ‘œ‚Ì•\¦" << "\n";
-	std::cout << " [Enter] ‰æ‘œ‚ÌŒˆ’è" << "\t" << " [Esc] ‹­§I—¹" << "\n";
+	std::cout << " [â†] å‰ç”»åƒã®è¡¨ç¤º" << "\t" << " [â†’] æ¬¡ç”»åƒã®è¡¨ç¤º" << "\n";
+	std::cout << " [Enter] ç”»åƒã®æ±ºå®š" << "\t" << " [Esc] å¼·åˆ¶çµ‚äº†" << "\n";
 	std::cout << std::endl;
 
-	// ƒJƒEƒ“ƒ^‚ÌƒŠƒZƒbƒg
+	// ã‚«ã‚¦ãƒ³ã‚¿ã®ãƒªã‚»ãƒƒãƒˆ
 	imageCount = beginCount;
 	showFlag = true;
 
-	/* —£—¤‰æ‘œ‚Ì‘I‘ğ */
+	/* é›¢é™¸ç”»åƒã®é¸æŠ */
 	while ( showFlag ) {
 
-		// ‰æ‘œ‚Ìæ“¾
+		// ç”»åƒã®å–å¾—
 		fileName.str("");
 		fileName << std::setw(3) << std::setfill('0') << imageCount << ".bmp";
 		sourceImage = cv::imread( fileName.str() );
 
-		// ƒRƒ“ƒ\[ƒ‹‚Ì•\¦
-		std::cout << " > ‰æ‘œ”Ô†F" << imageCount << "\r" << std::flush;
+		// ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®è¡¨ç¤º
+		std::cout << " > ç”»åƒç•ªå·ï¼š" << imageCount << "\r" << std::flush;
 
-		// ‰æ‘œ‚Ì•\¦
+		// ç”»åƒã®è¡¨ç¤º
 		cv::imshow( windowName, sourceImage );
 
-		// ƒL[‚Ì“ü—Í
+		// ã‚­ãƒ¼ã®å…¥åŠ›
 		int key = cv::waitKey(1);
 		switch ( key ) {
-		case 2424832:     // ¶•ûŒüƒL[‚Å‘O‚Ö
+		case 2424832:     // å·¦æ–¹å‘ã‚­ãƒ¼ã§å‰ã¸
 			if ( imageCount > beginCount ) {
 				imageCount -= 1;
 			}
@@ -107,7 +107,7 @@ int main( void ) {
 				imageCount = beginCount;
 			}
 			break;
-		case 2555904:     // ‰E•ûŒüƒL[‚ÅŸ‚Ö
+		case 2555904:     // å³æ–¹å‘ã‚­ãƒ¼ã§æ¬¡ã¸
 			if ( imageCount < endCount ) {
 				imageCount += 1;
 			}
@@ -115,28 +115,28 @@ int main( void ) {
 				imageCount = endCount;
 			}
 			break;
-		case 13:     // EnterƒL[‚ÅŒˆ’è
+		case 13:     // Enterã‚­ãƒ¼ã§æ±ºå®š
 			showFlag = false;
 			liftoffCount = imageCount;
 			break;
-		case 27:     // EscƒL[‚ÅI—¹
+		case 27:     // Escã‚­ãƒ¼ã§çµ‚äº†
 			return 0;
 		default:
 			break;
 		}
 	}
 
-	// ƒRƒ“ƒ\[ƒ‹‚Ì•\¦
-	std::cout << " > " << liftoffCount << " –‡–Ú‚ğ—£—¤‚µ‚½‚Æ‚«‚Ì‰æ‘œ‚ÉŒˆ’èD" << "\n";
+	// ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®è¡¨ç¤º
+	std::cout << " > " << liftoffCount << " æšç›®ã‚’é›¢é™¸ã—ãŸã¨ãã®ç”»åƒã«æ±ºå®šï¼" << "\n";
 	std::cout << std::endl;
 
-	// ƒEƒBƒ“ƒhƒE‚Ì”jŠü
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç ´æ£„
 	cv::destroyWindow( windowName );
 
-	// ŒÂ‘Ìî•ñ‚Ìæ“¾
+	// å€‹ä½“æƒ…å ±ã®å–å¾—
 	iGetInformation( dataMass, dataLength );
 
-	// ƒŠƒ“ƒNEƒWƒ‡ƒCƒ“ƒg‚Ìæ“¾
+	// ãƒªãƒ³ã‚¯ãƒ»ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆã®å–å¾—
 	for ( int count = beginCount; count <= endCount; count++ ) {
 		iGetLinkJoint( count, dataX, dataY );
 		for ( int i = 0; i < NUMBER_LINK; i++ ) {
@@ -150,33 +150,33 @@ int main( void ) {
 		iCalculate( count );
 	}
 	
-	// ƒEƒBƒ“ƒhƒE‚Ìİ’è
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®è¨­å®š
 	windowName = "Left:Source Image, Right:Stick Diagram";
 	cv::namedWindow( windowName, CV_WINDOW_AUTOSIZE );
 	cv::moveWindow( windowName, 540, 0 );
 
-	// ƒRƒ“ƒ\[ƒ‹‚Ì•\¦
-	std::cout << " > " << beginCount << " –‡–Ú ` " << endCount << " –‡–Ú‚Ü‚Å‚Ì‰æ‘œ‚ğ•\¦" << "\n";
+	// ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®è¡¨ç¤º
+	std::cout << " > " << beginCount << " æšç›® ï½ " << endCount << " æšç›®ã¾ã§ã®ç”»åƒã‚’è¡¨ç¤º" << "\n";
 	std::cout << std::endl;
 #ifdef AUTO
-	std::cout << "----- ©“®•\¦ƒ‚[ƒh --------------------------------------------" << "\n";
+	std::cout << "----- è‡ªå‹•è¡¨ç¤ºãƒ¢ãƒ¼ãƒ‰ --------------------------------------------" << "\n";
 	std::cout << std::endl;
 #else
-	std::cout << "----- è“®•\¦ƒ‚[ƒh --------------------------------------------" << "\n";
+	std::cout << "----- æ‰‹å‹•è¡¨ç¤ºãƒ¢ãƒ¼ãƒ‰ --------------------------------------------" << "\n";
 	std::cout << std::endl;
-	std::cout << " [©] ‘O‰æ‘œ‚Ì•\¦" << "\t" << " [¨] Ÿ‰æ‘œ‚Ì•\¦" << "\n";
+	std::cout << " [â†] å‰ç”»åƒã®è¡¨ç¤º" << "\t" << " [â†’] æ¬¡ç”»åƒã®è¡¨ç¤º" << "\n";
 #endif
-	std::cout << " [Enter] ƒf[ƒ^‚Ì•Û‘¶" << "\t" << " [Esc] ‹­§I—¹" << "\n";
+	std::cout << " [Enter] ãƒ‡ãƒ¼ã‚¿ã®ä¿å­˜" << "\t" << " [Esc] å¼·åˆ¶çµ‚äº†" << "\n";
 	std::cout << std::endl;
 
-	// ƒJƒEƒ“ƒ^‚ÌƒŠƒZƒbƒg
+	// ã‚«ã‚¦ãƒ³ã‚¿ã®ãƒªã‚»ãƒƒãƒˆ
 	showFlag = true;
 	imageCount = beginCount;
 
-	/* ƒƒCƒ“ƒ‹[ƒv */
+	/* ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ— */
 	while ( showFlag ) {
 
-		// ‰æ‘œ‚Ìæ“¾
+		// ç”»åƒã®å–å¾—
 		fileName.str("");
 		fileName << std::setw(3) << std::setfill('0') << imageCount << ".bmp";
 		sourceImage = cv::imread( fileName.str() );
@@ -189,7 +189,7 @@ int main( void ) {
 			}
 		}
 		
-		// ü‚Ì•`‰æ
+		// ç·šã®æç”»
 		if ( imageCount < liftoffCount ) {
 			cv::line( stickImage, cv::Point(0, HEIGHT - (int)jointPointY[liftoffCount - 1][2]),
 				cv::Point(WIDTH, HEIGHT - (int)jointPointY[liftoffCount - 1][2]), CV_RGB(200, 200, 200), 2, 8, 0 );
@@ -199,7 +199,7 @@ int main( void ) {
 				cv::Point((int)linkPointX[imageCount][i + NUMBER_LINK], HEIGHT - (int)linkPointY[imageCount][i + NUMBER_LINK]), CV_RGB(0, 255, 0), 2, 8, 0 );
 		}
 		
-		// “_‚Ì•`‰æ
+		// ç‚¹ã®æç”»
 		for ( int i = 0; i < NUMBER_JOINT; i++ ) {
 			cv::circle( stickImage, cv::Point((int)jointPointX[imageCount][i], HEIGHT - (int)jointPointY[imageCount][i]), 5, CV_RGB(0, 0, 255), -1, 8, 0 );
 		}
@@ -208,22 +208,22 @@ int main( void ) {
 		}
 		cv::circle( stickImage, cv::Point((int)positionX[imageCount], HEIGHT - (int)positionY[imageCount]), 5, CV_RGB(255, 127, 0), -1, 8, 0 );
 
-		// ‰æ‘œ‚ÌŒ‹‡
+		// ç”»åƒã®çµåˆ
 		cv::hconcat( sourceImage, stickImage, destinationImage );
 #ifdef VIDEO
-		// “®‰æ‚Ì•Û‘¶
+		// å‹•ç”»ã®ä¿å­˜
 		writer << destinationImage;
 #endif
-		// ƒRƒ“ƒ\[ƒ‹‚Ì•\¦
-		std::cout << " > ‰æ‘œ”Ô†F" << imageCount << "\r" << std::flush;
+		// ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®è¡¨ç¤º
+		std::cout << " > ç”»åƒç•ªå·ï¼š" << imageCount << "\r" << std::flush;
 
-		// ‰æ‘œ‚Ì•\¦
+		// ç”»åƒã®è¡¨ç¤º
 		cv::imshow( windowName, destinationImage );
 
-		// ƒL[‚Ì“ü—Í
+		// ã‚­ãƒ¼ã®å…¥åŠ›
 		int key = cv::waitKey(1);
 		switch ( key ) {
-		case 2424832:     // ¶•ûŒüƒL[‚Å‘O‚Ö
+		case 2424832:     // å·¦æ–¹å‘ã‚­ãƒ¼ã§å‰ã¸
 			if ( imageCount > beginCount ) {
 				imageCount -= 1;
 			}
@@ -231,7 +231,7 @@ int main( void ) {
 				imageCount = beginCount;
 			}
 			break;
-		case 2555904:     // ‰E•ûŒüƒL[‚ÅŸ‚Ö
+		case 2555904:     // å³æ–¹å‘ã‚­ãƒ¼ã§æ¬¡ã¸
 			if ( imageCount < endCount ) {
 				imageCount += 1;
 			}
@@ -239,10 +239,10 @@ int main( void ) {
 				imageCount = endCount;
 			}
 			break;
-		case 13:     // EnterƒL[‚Å•Û‘¶
+		case 13:     // Enterã‚­ãƒ¼ã§ä¿å­˜
 			showFlag = false;
 			break;
-		case 27:     // EscƒL[‚ÅI—¹
+		case 27:     // Escã‚­ãƒ¼ã§çµ‚äº†
 			return 0;
 			break;
 #ifdef AUTO
@@ -262,7 +262,7 @@ int main( void ) {
 		}
 	}
 
-	// ƒf[ƒ^‚Ìæ“¾
+	// ãƒ‡ãƒ¼ã‚¿ã®å–å¾—
 	for ( int count = beginCount; count <= endCount; count++ ) {
 		data[count][0] = xg[0][count];
 		data[count][1] = zg[0][count];
@@ -288,8 +288,8 @@ int main( void ) {
 		data[count][10] = yg[0][count];
 	}
 	**/
-	// ƒf[ƒ^‚Ì•Û‘¶
+	// ãƒ‡ãƒ¼ã‚¿ã®ä¿å­˜
 	iSaveData();
 	return 0;
 } 
-/***************************************************************************************************/
+/******************************************************************************/
